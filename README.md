@@ -26,6 +26,6 @@ Our goals as we proceed with the project are:
 
 ## Credits
 
-This project is under the supervision of PHD Researcher Mario Beraha from Politecnico di Milano. 
+This project is under the supervision of PHD Researcher <a href="https://github.com/mberaha">Mario Beraha</a> from Politecnico di Milano. 
 
 
