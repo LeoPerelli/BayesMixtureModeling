@@ -22,3 +22,10 @@ Our goals as we proceed with the project are:
 * investigate other models:
    * with heavier tails like t-student, but where the Wasserstein Distance can still be expressed in closed form
    * skew-normal, since it’s not a location-scale distribution and so the Wasserstein Distance can’t be expressed in closed form
+
+
+## Credits
+
+This project is under the supervision of PHD Researcher Mario Beraha from Politecnico di Milano. 
+
+
