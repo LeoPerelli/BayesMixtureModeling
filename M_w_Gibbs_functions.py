@@ -1,23 +1,14 @@
-import matplotlib.pyplot as plt
-import seaborn as sns
-import tensorflow as tf
-import pandas as pd
-import time
-import scipy
-#Separate import for numpy and jax.numpy to have major felxibility
-import jax.numpy as jnp
-import numpy as np
-from jax import jit,lax,random
-from tensorflow_probability.substrates import numpy as tfp
-tfd = tfp.distributions
-from tensorflow_probability.substrates import jax as jtfp
-jtfd = jtfp.distributions
-
 np.random.seed(0)
 d = 2
 sampled_perturbed = np.load('Project Code/sampled_2D_two_clusters.npy')
 data = sampled_perturbed[0 : 1000]
 k = 5
+
+
+#Problems:
+#1) Metropolis Hastings term in the truncated normal proposal has to be included? How?
+#2) Evaluate wishart gives 0 values"
+#3) Update the prior function: integrate out the other values
 
 
 def sample_uniq_vals_fullcond_Wasserstein(clusdata, lam, uniq_vals, h, key):
@@ -109,6 +100,9 @@ def compute_Wasserstein(mu_1, cov_1, mu_2, cov_2):
     return norm + trace
 
 def sample_proposal(mu_old,cov_old,var_prop,cov_prop):
+    """
+    Sample from 3 truncated normals to 
+    """
 
     sigma_0 = cov_old[0,0]
     sigma_1 = cov_old[1,1]
@@ -152,11 +146,11 @@ def compute_beta(uniq_vals, h, mu, cov, mu_n, lam_n, phi_n, nu_n, mu_old, cov_ol
     print("prod" + str(prod))
     print("den_1" + str(den_1))
 
-    if num_1 < 1e-15 and den_1 < 1e-15:
-        num_1 = 1
-        den_1 = 1
-    elif den_1 < 1e-15:
-        return 0
+#     if num_1 < 1e-15 and den_1 < 1e-15:
+#         num_1 = 1
+#         den_1 = 1
+#     elif den_1 < 1e-15:
+#         return 0
 
 
     return num_1*prod/den_1
@@ -191,9 +185,6 @@ def sample_uniq_vals_prior(lam):
     var = np.array(tf.linalg.inv(prec))
     mu = tfd.MultivariateNormalFullCovariance(np.mean(np.array(data), axis = 0), var/lam).sample()
     return np.array([[mu[0], var[0,0], var[0,1]],[mu[1], var[1,0], var[1,1]]])
-
-
-
 
 
 def run_one_gibbs(data, cluster_allocs, uniq_vals, weights, alpha, lam , key):
